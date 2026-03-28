@@ -5,6 +5,18 @@ All tools return structured JSON content. State-changing actions use a quote-fir
 
 ## Wallet Tools / ウォレット系
 
+### `auth_status`
+
+- 目的 / Purpose: 現在の MCP session が認証済みか確認する  
+  confirm that the current MCP session is authenticated
+- 入力 / Input:
+  - none
+- 応答 / Returns:
+  - `authenticated`
+  - `auth_type`
+  - `user_id`
+  - `email`
+
 ### `list_agent_wallets`
 
 - 目的 / Purpose: サインイン中ユーザーが所有する wallet 一覧を返す  

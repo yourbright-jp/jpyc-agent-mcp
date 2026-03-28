@@ -20,6 +20,9 @@ Your MCP client should support:
 - OAuth authorization flow
 - structured tool input and output handling
 
+接続直後は `auth_status` を呼んで、session が有効か確認する運用を推奨します。  
+After connecting, it is recommended to call `auth_status` first to confirm the session is valid.
+
 ## セキュリティ境界 / Security Boundaries
 
 - すべての wallet action はサインイン中ユーザーに紐づく  

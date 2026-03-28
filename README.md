@@ -12,6 +12,7 @@ JPYC Manager MCP は、OAuth で保護された HTTP MCP tool を提供します
 The JPYC Manager MCP provides OAuth-protected HTTP MCP tools for:
 
 - Polygon 上の agent wallet 作成 / creating Polygon agent wallets
+- OAuth セッション確認 / checking OAuth session status
 - JPYC と gas 残高確認 / checking JPYC and gas balances
 - JPYC 送金の quote と実行 / quoting and executing JPYC transfers
 - 任意コントラクト read / reading arbitrary Polygon contracts
@@ -28,6 +29,8 @@ The JPYC Manager MCP provides OAuth-protected HTTP MCP tools for:
   a Polygon-focused workflow
 - state-changing action は quote-then-execute で扱う前提  
   acceptance of the quote-then-execute model for state-changing actions
+- 接続直後に `auth_status` を呼べること  
+  ability to call `auth_status` first after connection
 
 ## 主要な制約 / Core Constraints
 
