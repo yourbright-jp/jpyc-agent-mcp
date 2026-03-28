@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "jpyc-manager": {
+      "type": "http",
+      "url": "https://jpyc-info.com/api/jpyc-manager-mcp",
+      "note": "OAuth-protected HTTP MCP endpoint. Sign in through the authorization flow before using tools."
+    }
+  }
+}
