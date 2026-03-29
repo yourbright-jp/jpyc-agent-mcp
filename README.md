@@ -66,11 +66,14 @@ JPYC Agent MCP では、主に次の操作を MCP ツールとして使えます
 ### 1. Codex で使う
 
 `plugin/.codex-plugin/plugin.json` を Codex App 向けのサンプルとして公開しています。  
-Codex 側で plugin / MCP 設定を追加する場合は、この内容をベースにしてください。
+Codex 側で plugin / MCP 設定を追加する場合は、この内容をベースにしてください。  
+plugin には bundled skill も含められるようにしてあり、wallet 確認、quote-first transfer、contract read / write の進め方を Codex に事前に渡せます。
 
 関連ファイル:
 
 - [plugin/.codex-plugin/plugin.json](./plugin/.codex-plugin/plugin.json)
+- [plugin/skills/jpyc-agent-mcp/SKILL.md](./plugin/skills/jpyc-agent-mcp/SKILL.md)
+- [plugin/skills/jpyc-agent-mcp/agents/openai.yaml](./plugin/skills/jpyc-agent-mcp/agents/openai.yaml)
 - [plugin/.mcp.json](./plugin/.mcp.json)
 - [plugin/config/default.json](./plugin/config/default.json)
 
@@ -78,11 +81,9 @@ Codex 側で plugin / MCP 設定を追加する場合は、この内容をベー
 
 HTTP MCP に対応したクライアントでは、公開 endpoint を指定して接続します。
 
-接続先の URL には歴史的な理由で `jpyc-manager` が残っていますが、公開名称は `JPYC Agent MCP` です。
-
-- MCP endpoint: `https://jpyc-info.com/api/jpyc-manager-mcp`
-- OAuth issuer: `https://jpyc-info.com/api/jpyc-manager-oauth`
-- Resource metadata: `https://jpyc-info.com/api/jpyc-manager-oauth/resource-metadata`
+- MCP endpoint: `https://jpyc-info.com/api/jpyc-agent-mcp`
+- OAuth issuer: `https://jpyc-info.com/api/jpyc-agent-oauth`
+- Resource metadata: `https://jpyc-info.com/api/jpyc-agent-oauth/resource-metadata`
 
 OAuth 対応クライアントであれば、接続時にログインと認可フローが始まります。
 

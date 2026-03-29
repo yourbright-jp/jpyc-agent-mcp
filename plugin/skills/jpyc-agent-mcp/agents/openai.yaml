@@ -1,0 +1,11 @@
+interface:
+  display_name: "JPYC Agent MCP"
+  short_description: "Wallet inspection, JPYC transfer, and contract-call workflow for the JPYC Agent MCP plugin."
+  default_prompt: "Use JPYC Agent MCP for wallet lookup, balance checks, quote-first transfers, and contract inspection on Polygon."
+policy:
+  allow_implicit_invocation: true
+dependencies:
+  tools:
+    - type: "mcp"
+      value: "jpyc-agent"
+      description: "JPYC Agent MCP HTTP endpoint"

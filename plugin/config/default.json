@@ -1,4 +1,4 @@
 {
-  "backendUrl": "https://jpyc-info.com/api/jpyc-manager-mcp",
+  "backendUrl": "https://jpyc-info.com/api/jpyc-agent-mcp",
   "chain": "polygon"
 }

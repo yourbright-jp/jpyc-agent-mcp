@@ -5,10 +5,10 @@ The JPYC Agent MCP is an OAuth-protected HTTP MCP service.
 
 ## 公開エンドポイント / Public Endpoints
 
-- MCP resource: `https://jpyc-info.com/api/jpyc-manager-mcp`
-- OAuth issuer base: `https://jpyc-info.com/api/jpyc-manager-oauth`
-- Resource metadata: `https://jpyc-info.com/api/jpyc-manager-oauth/resource-metadata`
-- Authorization server metadata: `https://jpyc-info.com/api/jpyc-manager-oauth/metadata`
+- MCP resource: `https://jpyc-info.com/api/jpyc-agent-mcp`
+- OAuth issuer base: `https://jpyc-info.com/api/jpyc-agent-oauth`
+- Resource metadata: `https://jpyc-info.com/api/jpyc-agent-oauth/resource-metadata`
+- Authorization server metadata: `https://jpyc-info.com/api/jpyc-agent-oauth/metadata`
 
 ## クライアント要件 / Expected Client Capabilities
 

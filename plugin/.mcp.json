@@ -2,7 +2,7 @@
   "mcpServers": {
     "jpyc-agent": {
       "type": "http",
-      "url": "https://jpyc-info.com/api/jpyc-manager-mcp",
+      "url": "https://jpyc-info.com/api/jpyc-agent-mcp",
       "note": "OAuth 認証付きの HTTP MCP endpoint です。利用前にログインと認可が必要です。"
     }
   }

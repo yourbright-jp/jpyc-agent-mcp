@@ -7,6 +7,10 @@
 
 - `.codex-plugin/plugin.json`
   - Codex App 向けの plugin サンプルです
+- `skills/jpyc-agent-mcp/SKILL.md`
+  - Codex が wallet / transfer / contract workflow を安全寄りの手順で扱うための bundled skill です
+- `skills/jpyc-agent-mcp/agents/openai.yaml`
+  - skill の表示名、default prompt、MCP dependency を定義する metadata です
 - `.mcp.json`
   - HTTP MCP クライアント向けの設定サンプルです
 - `config/default.json`
@@ -16,17 +20,18 @@
 
 ### Codex App で使う
 
-`.codex-plugin/plugin.json` の内容をベースに、Codex 側へ登録してください。
+`.codex-plugin/plugin.json` の内容をベースに、Codex 側へ登録してください。  
+この plugin は `skills` と `.mcp.json` の両方を含む想定なので、install 後は bundled skill と MCP endpoint をあわせて使えます。
+
+skill を明示的に呼びたい場合は、Codex 側で `@jpyc-agent` plugin または `@jpyc-agent-mcp` skill を選ぶ想定です。
 
 ### MCP クライアントで使う
 
 `.mcp.json` の `url` を MCP endpoint として使ってください。
 
-endpoint のパスには `jpyc-manager` が残っていますが、公開名称は `JPYC Agent MCP` です。
-
 現在の公開 endpoint:
 
-- `https://jpyc-info.com/api/jpyc-manager-mcp`
+- `https://jpyc-info.com/api/jpyc-agent-mcp`
 
 ## 利用できる主な tool
 
@@ -66,10 +71,13 @@ contract write をしたいときは次の順です。
 1. `quote_contract_write`
 2. `execute_contract_write`
 
+bundled skill もこの順序に沿って動く想定です。特に state-changing action では quote-first を前提にしています。
+
 ## 注意点
 
 - これらはあくまでサンプルです
 - 環境に応じて URL や runtime value は調整してください
 - 認証は OAuth 前提です
 - 利用前にサインインが必要です
+- bundled skill は JPYC Agent MCP の tool surface に寄せた運用ガイドであり、秘密情報や private key を要求しません
 - README に書かれている tool が実際に呼べるかどうかは、クライアントが MCP 接続を正しく有効化できているかに依存します

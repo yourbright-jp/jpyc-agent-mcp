@@ -1,9 +1,19 @@
 {
   "name": "jpyc-agent",
   "version": "0.2.0",
-  "description": "OAuth で保護された HTTP MCP endpoint 経由で JPYC Agent MCP を利用するための設定サンプルです。",
+  "description": "Plugin sample for connecting Codex to the OAuth-protected JPYC Agent MCP endpoint.",
+  "homepage": "https://github.com/yourbright-jp/jpyc-agent-mcp",
+  "repository": "https://github.com/yourbright-jp/jpyc-agent-mcp",
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
   "interface": {
     "displayName": "JPYC Agent MCP",
-    "description": "Polygon 上の agent wallet 操作、JPYC 送金、contract call を MCP ツールとして利用できます。"
+    "shortDescription": "Use JPYC agent wallet, transfer, and contract workflows from Codex.",
+    "longDescription": "A plugin sample that bundles the JPYC Agent MCP endpoint and a bundled skill for wallet lookup, balance checks, quote-first JPYC transfers, and contract read or write flows on Polygon.",
+    "defaultPrompt": [
+      "Use JPYC Agent MCP to check my wallet list and balance.",
+      "Use JPYC Agent MCP to prepare a JPYC transfer quote before any state-changing action.",
+      "Use JPYC Agent MCP to inspect a contract and only propose write actions after quoting."
+    ]
   }
 }
