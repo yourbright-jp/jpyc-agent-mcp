@@ -1,9 +1,9 @@
 {
-  "name": "jpyc-manager",
+  "name": "jpyc-agent",
   "version": "0.2.0",
-  "description": "JPYC treasury and agent wallet management through an OAuth-protected HTTP MCP endpoint.",
+  "description": "OAuth で保護された HTTP MCP endpoint 経由で JPYC Agent MCP を利用するための設定サンプルです。",
   "interface": {
-    "displayName": "JPYC Manager",
-    "description": "Manage Polygon agent wallets, JPYC transfers, and contract calls through MCP tools."
+    "displayName": "JPYC Agent MCP",
+    "description": "Polygon 上の agent wallet 操作、JPYC 送金、contract call を MCP ツールとして利用できます。"
   }
 }

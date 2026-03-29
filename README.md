@@ -1,99 +1,89 @@
 # JPYC Agent MCP
 
-JPYC Manager MCP の公開ドキュメントと plugin sample を置く public repository です。  
-This public repository contains documentation and plugin samples for the JPYC Manager MCP.
+JPYC Agent MCP を外部の MCP クライアントから使うための公開リポジトリです。  
+このリポジトリでは、ユーザーが「何ができるか」「どうインストールするか」「接続前に何を知るべきか」をすぐ判断できるように、公開ドキュメントと設定サンプルだけをまとめています。
 
-この repo は、外部エージェント、ツール開発者、連携担当者が「この MCP で何ができるか」「どう接続するか」「どの制約があるか」を判断できるようにするためのものです。  
-This repo is intended to help external agents, tool builders, and integration engineers decide what this MCP does, how to connect to it, and what constraints apply.
+## できること
 
-## 何ができるか / What This MCP Does
+JPYC Agent MCP では、主に次の操作を MCP ツールとして使えます。
 
-JPYC Manager MCP は、OAuth で保護された HTTP MCP tool を提供します。  
-The JPYC Manager MCP provides OAuth-protected HTTP MCP tools for:
+- Polygon 上の agent wallet の作成
+- 自分の wallet 一覧の取得
+- JPYC 残高 / gas 残高の確認
+- JPYC 送金の quote と実行
+- コントラクト read
+- コントラクト write の quote と実行
+- 送金履歴 / contract call 履歴の確認
 
-- Polygon 上の agent wallet 作成 / creating Polygon agent wallets
-- OAuth セッション確認 / checking OAuth session status
-- JPYC と gas 残高確認 / checking JPYC and gas balances
-- JPYC 送金の quote と実行 / quoting and executing JPYC transfers
-- 任意コントラクト read / reading arbitrary Polygon contracts
-- コントラクト write の quote と実行 / quoting and executing contract writes through agent wallets
-- 送金履歴と contract call 履歴の確認 / listing transfer and contract call history
+## インストール方法
 
-## 接続前提 / What You Need Before Connecting
+### 1. Codex で使う
 
-- HTTP MCP と OAuth に対応した MCP client  
-  an MCP client that supports HTTP MCP and OAuth
-- JPYC Manager deployment にアクセスできるユーザー権限  
-  a user account authorized to access the JPYC Manager deployment
-- Polygon 前提の運用  
-  a Polygon-focused workflow
-- state-changing action は quote-then-execute で扱う前提  
-  acceptance of the quote-then-execute model for state-changing actions
-- 接続直後に `auth_status` を呼べること  
-  ability to call `auth_status` first after connection
+`plugin/.codex-plugin/plugin.json` を Codex App 向けのサンプルとして公開しています。  
+Codex 側で plugin / MCP 設定を追加する場合は、この内容をベースにしてください。
 
-## 主要な制約 / Core Constraints
+関連ファイル:
 
-- Polygon only
-- user-owned wallets only
-- `execute_contract_write` の前に `quote_contract_write` が必要  
-  contract writes require `quote_contract_write` before `execute_contract_write`
-- `transfer_jpyc` の前に `quote_transfer` が必要  
-  JPYC transfers require `quote_transfer` before `transfer_jpyc`
-- secret や signer material はこの repo では配布しない  
-  secrets and signer material are not distributed through this repository
+- [plugin/.codex-plugin/plugin.json](./plugin/.codex-plugin/plugin.json)
+- [plugin/.mcp.json](./plugin/.mcp.json)
+- [plugin/config/default.json](./plugin/config/default.json)
 
-## 公開エンドポイント / Hosted Endpoint Pattern
+### 2. MCP クライアントで使う
 
-現在の公開エンドポイントの形は次です。  
-The current public endpoint pattern is:
+HTTP MCP に対応したクライアントでは、公開 endpoint を指定して接続します。
 
-- MCP resource: `https://jpyc-info.com/api/jpyc-manager-mcp`
-- OAuth issuer base: `https://jpyc-info.com/api/jpyc-manager-oauth`
-- OAuth resource metadata: `https://jpyc-info.com/api/jpyc-manager-oauth/resource-metadata`
+接続先の URL には歴史的な理由で `jpyc-manager` が残っていますが、公開名称は `JPYC Agent MCP` です。
 
-外部接続の基点としてはこの surface を見てください。詳細な access policy は deployment 側で管理されます。  
-Use these as the public connection surface. Project-specific access policy still applies on the deployment side.
+- MCP endpoint: `https://jpyc-info.com/api/jpyc-manager-mcp`
+- OAuth issuer: `https://jpyc-info.com/api/jpyc-manager-oauth`
+- Resource metadata: `https://jpyc-info.com/api/jpyc-manager-oauth/resource-metadata`
 
-## リポジトリ構成 / Repository Layout
+OAuth 対応クライアントであれば、接続時にログインと認可フローが始まります。
 
-- [docs/tools.md](./docs/tools.md): tool 一覧と request/response の要約  
-  tool catalog and request/response notes
-- [docs/auth.md](./docs/auth.md): OAuth と security model  
-  OAuth and security model
-- [docs/openai-and-mcp.md](./docs/openai-and-mcp.md): OpenAI / MCP の関連情報  
-  OpenAI and MCP integration notes with official links
-- [plugin/.codex-plugin/plugin.json](./plugin/.codex-plugin/plugin.json): 公開 plugin manifest sample  
-  public plugin manifest sample
-- [plugin/.mcp.json](./plugin/.mcp.json): 公開 MCP client sample  
-  public MCP client sample
-- [plugin/config/default.json](./plugin/config/default.json): non-secret runtime sample  
-  non-secret runtime sample
+## 最初の使い方
 
-## 想定読者 / Who This Repo Is For
+接続できたら、まずは次の順に試すのが安全です。
 
-- 外部エージェント開発者 / external agent developers evaluating tool coverage
-- MCP integration を組み込むチーム / teams integrating MCP tools into internal or hosted agents
-- 公開 action surface をレビューしたい監査・評価者 / auditors reviewing the public action surface and security model
+1. `auth_status` で認証状態を確認する
+2. `list_agent_wallets` で既存 wallet を確認する
+3. wallet がなければ `create_agent_wallet` を呼ぶ
+4. `get_agent_wallet_balance` で残高を確認する
+5. 送金や contract write は必ず quote を取ってから execute する
 
-## あえて公開しないもの / What Is Intentionally Not Public Here
+## 接続前に知っておくこと
 
-- Supabase 内部実装詳細 / Supabase internal implementation details
-- private operation 専用の secret 名 / secret names used only for private operations
-- signer private key の内部処理 / signer private key handling internals
-- private infrastructure topology / private infrastructure topology
+- Polygon 前提です
+- 操作できるのは、サインイン中ユーザーに紐づく wallet だけです
+- state を変える操作は基本的に quote → execute の2段階です
+- secret や signer private key はこのリポジトリでは配布しません
 
-## OpenAI 公式情報 / OpenAI References
+## インストールサンプル
 
-OpenAI 側の最新仕様は必ず公式 docs を参照してください。  
-For current OpenAI agent and tool-calling behavior, use the official docs:
+`plugin` ディレクトリには、公開可能なサンプルだけを置いています。
 
-- Function calling: `https://platform.openai.com/docs/guides/function-calling`
-- Using tools: `https://platform.openai.com/docs/guides/tools`
-- Agents SDK: `https://platform.openai.com/docs/guides/agents-sdk/`
-- Agent Builder: `https://platform.openai.com/docs/guides/agent-builder`
+- [plugin/README.md](./plugin/README.md): サンプルの見方
+- [plugin/.codex-plugin/plugin.json](./plugin/.codex-plugin/plugin.json): Codex App 向けサンプル
+- [plugin/.mcp.json](./plugin/.mcp.json): 汎用 HTTP MCP 設定サンプル
+- [plugin/config/default.json](./plugin/config/default.json): 非 secret の既定値サンプル
 
-## 補足 / Notes
+## ドキュメント
 
-この repo は JPYC Manager MCP の public-facing documentation surface です。private implementation repo とは分けており、外部エージェントが公開 contract を読める一方で、運用上の private detail は出さない構成にしています。  
-This repository is the public-facing documentation surface for the JPYC Manager MCP. It is separate from the private implementation repository so external agents can inspect the public contract without exposing private operational details.
+より詳しい仕様は次を参照してください。
+
+- [docs/tools.md](./docs/tools.md): 利用できる tool 一覧
+- [docs/auth.md](./docs/auth.md): OAuth と権限制約
+- [docs/openai-and-mcp.md](./docs/openai-and-mcp.md): OpenAI / MCP 関連メモ
+
+## このリポジトリに含めないもの
+
+このリポジトリは公開用です。次のものは含めません。
+
+- 秘密情報
+- signer private key
+- private infrastructure の構成詳細
+- Supabase 内部実装の private な運用詳細
+
+## 補足
+
+この repo は、JPYC Agent MCP を「利用者が接続するための入り口」として整理したものです。  
+内部実装の説明よりも、ユーザーが迷わず導入できることを優先しています。

@@ -1,11 +1,36 @@
-# Plugin Samples / plugin sample
+# plugin サンプル
 
-この directory には、MCP client や plugin host 向けの public / non-secret sample を置いています。  
-This directory contains public, non-secret samples for MCP clients and plugin hosts.
+このディレクトリには、JPYC Agent MCP をクライアントに登録するための公開サンプルを置いています。  
+どのファイルにも secret は含まれていません。
 
-- `.codex-plugin/plugin.json`: plugin metadata
-- `.mcp.json`: HTTP MCP sample configuration
-- `config/default.json`: non-secret default values
+## 含まれているもの
 
-これらは example です。実際の運用では URL や runtime value を環境に合わせて差し替えてください。  
-These files are intended as examples. Replace URLs and runtime values as needed for your environment.
+- `.codex-plugin/plugin.json`
+  - Codex App 向けの plugin サンプルです
+- `.mcp.json`
+  - HTTP MCP クライアント向けの設定サンプルです
+- `config/default.json`
+  - 非 secret の既定値サンプルです
+
+## 使い方
+
+### Codex App で使う
+
+`.codex-plugin/plugin.json` の内容をベースに、Codex 側へ登録してください。
+
+### MCP クライアントで使う
+
+`.mcp.json` の `url` を MCP endpoint として使ってください。
+
+endpoint のパスには `jpyc-manager` が残っていますが、公開名称は `JPYC Agent MCP` です。
+
+現在の公開 endpoint:
+
+- `https://jpyc-info.com/api/jpyc-manager-mcp`
+
+## 注意点
+
+- これらはあくまでサンプルです
+- 環境に応じて URL や runtime value は調整してください
+- 認証は OAuth 前提です
+- 利用前にサインインが必要です

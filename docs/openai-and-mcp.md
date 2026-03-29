@@ -15,8 +15,8 @@ This repository documents a project-specific MCP surface. For current OpenAI pla
 OpenAI ベースの agent integration では、通常は次の流れになります。  
 Typical OpenAI-based agent integrations will:
 
-1. JPYC Manager MCP を external tool source として接続する  
-   connect to the JPYC Manager MCP as an external tool source
+1. JPYC Agent MCP を external tool source として接続する  
+   connect to the JPYC Agent MCP as an external tool source
 2. model が wallet / transfer / contract tool から選ぶ  
    let the model choose among wallet, transfer, and contract tools
 3. state-changing action の前に app 側で approval や policy check を入れる  
@@ -44,11 +44,11 @@ Typical OpenAI-based agent integrations will:
 
 ## この public repo の役割 / Public Repo Role
 
-この repo は OpenAI docs の代替ではありません。JPYC Manager MCP について、次を project-specific に説明する companion repository です。  
+この repo は OpenAI docs の代替ではありません。JPYC Agent MCP について、次を project-specific に説明する companion repository です。  
 This repository is not a substitute for the OpenAI docs. It is the public, project-specific companion that explains:
 
 - どの tool が公開されているか  
-  what the JPYC Manager MCP exposes
+  what the JPYC Agent MCP exposes
 - OAuth-protected endpoint がどう構成されているか  
   how the OAuth-protected endpoint is structured
 - 外部エージェントが守るべき制約は何か  

@@ -1,7 +1,7 @@
 # Auth and Security Model / 認証とセキュリティモデル
 
-JPYC Manager MCP は OAuth で保護された HTTP MCP service です。  
-The JPYC Manager MCP is an OAuth-protected HTTP MCP service.
+JPYC Agent MCP は OAuth で保護された HTTP MCP service です。  
+The JPYC Agent MCP is an OAuth-protected HTTP MCP service.
 
 ## 公開エンドポイント / Public Endpoints
 
