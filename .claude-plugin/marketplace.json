@@ -1,0 +1,22 @@
+{
+  "name": "jpyc-agent-mcp",
+  "owner": {
+    "name": "yourbright-jp",
+    "email": "gurujowa@gmail.com"
+  },
+  "metadata": {
+    "description": "JPYC Agent MCP plugin for wallet inspection, JPYC transfers, and contract workflows on Polygon.",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "jpyc-agent",
+      "source": ".",
+      "description": "Connect to the OAuth-protected JPYC Agent MCP endpoint for wallet inspection, JPYC transfers, and contract workflows on Polygon.",
+      "version": "0.2.0",
+      "author": {
+        "name": "yourbright-jp"
+      }
+    }
+  ]
+}
