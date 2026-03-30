@@ -9,6 +9,8 @@ The JPYC Agent MCP is an OAuth-protected HTTP MCP service.
 - OAuth issuer base: `https://jpyc-info.com/api/jpyc-agent-oauth`
 - Resource metadata: `https://jpyc-info.com/api/jpyc-agent-oauth/resource-metadata`
 - Authorization server metadata: `https://jpyc-info.com/api/jpyc-agent-oauth/metadata`
+- Manual auth start: `POST https://jpyc-info.com/api/jpyc-agent-oauth/start`
+- Manual auth poll: `GET https://jpyc-info.com/api/jpyc-agent-oauth/auth-session?auth_session_id=...`
 
 ## クライアント要件 / Expected Client Capabilities
 
@@ -22,6 +24,17 @@ Your MCP client should support:
 
 接続直後は `auth_status` を呼んで、session が有効か確認する運用を推奨します。  
 After connecting, it is recommended to call `auth_status` first to confirm the session is valid.
+
+## Manual Fallback / 手動フォールバック
+
+ChatGPT/Codex client が完全な OAuth authorization URL を自動表示できない場合は、manual fallback を使います。  
+If the ChatGPT/Codex client does not surface a full OAuth authorization URL, use the manual fallback:
+
+1. `POST /api/jpyc-agent-oauth/start` to create an auth session
+2. Open the returned `authorization_url` in the browser
+3. Complete JPYC Info login and consent
+4. Poll `/api/jpyc-agent-oauth/auth-session?auth_session_id=...`
+5. When the response becomes `authorized`, reuse the returned bearer token for MCP calls
 
 ## セキュリティ境界 / Security Boundaries
 

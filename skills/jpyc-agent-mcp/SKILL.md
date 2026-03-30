@@ -52,6 +52,7 @@ Do not invent tools or assume direct signer access, private keys, or backdoor ad
 - Summarize the current step and why it is needed.
 - For state-changing requests, explicitly say that you are using a quote-first flow.
 - If authentication or approval is required, say so plainly instead of implying execution succeeded.
+- If the client does not surface a full OAuth authorization URL, tell the user to start a manual auth session at `https://jpyc-info.com/api/jpyc-agent-oauth/start`, open the returned `authorization_url`, and poll the auth-session endpoint until authorized.
 - Keep blockchain jargon to the minimum needed for the task.
 
 ## What not to do
