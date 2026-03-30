@@ -1,0 +1,17 @@
+{
+  "name": "jpyc-agent",
+  "version": "0.2.0",
+  "description": "Connect Claude Code to the OAuth-protected JPYC Agent MCP endpoint for wallet inspection, JPYC transfers, and contract workflows on Polygon.",
+  "homepage": "https://github.com/yourbright-jp/jpyc-agent-mcp",
+  "repository": "https://github.com/yourbright-jp/jpyc-agent-mcp",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "JPYC Agent MCP",
+    "shortDescription": "Use JPYC agent wallet, transfer, and contract workflows from Claude Code.",
+    "defaultPrompt": [
+      "Use JPYC Agent MCP to check my wallet list and balance.",
+      "Use JPYC Agent MCP to prepare a JPYC transfer quote before any state-changing action.",
+      "Use JPYC Agent MCP to inspect a contract and only propose write actions after quoting."
+    ]
+  }
+}
