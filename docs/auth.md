@@ -11,7 +11,7 @@ The JPYC Agent MCP is an OAuth-protected HTTP MCP service.
 - Authorization server metadata: `https://jpyc-info.com/.well-known/oauth-authorization-server`
 - OpenID configuration: `https://jpyc-info.com/.well-known/openid-configuration`
 - Low-level manual auth start: `POST https://jpyc-info.com/api/jpyc-agent-oauth/start`
-- Manual auth poll: `GET https://jpyc-info.com/api/jpyc-agent-oauth/auth-session?auth_session_id=...`
+- Manual auth poll: `GET https://jpyc-info.com/api/jpyc-agent-oauth/auth-session?auth_session_id=...&auth_session_secret=...`
 
 The exact public OAuth coordinates are also published in [`../config/oauth.json`](../config/oauth.json).
 
@@ -58,8 +58,9 @@ Low-level manual auth remains available for debugging or client compatibility:
 1. `POST /api/jpyc-agent-oauth/start` to create an auth session
 2. Open the returned `authorization_url` in the browser
 3. Complete JPYC Info login and consent
-4. Poll `/api/jpyc-agent-oauth/auth-session?auth_session_id=...`
-5. When the response becomes `authorized`, reuse the returned bearer token for MCP calls
+4. Keep the returned `auth_session_secret` private on the client side
+5. Poll `/api/jpyc-agent-oauth/auth-session?auth_session_id=...&auth_session_secret=...`
+6. When the response becomes `authorized`, reuse the returned bearer token for MCP calls
 
 ## Security Boundaries
 

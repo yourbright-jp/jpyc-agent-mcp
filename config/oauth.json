@@ -6,7 +6,7 @@
   "authorization_server_metadata_url": "https://jpyc-info.com/.well-known/oauth-authorization-server",
   "openid_configuration_url": "https://jpyc-info.com/.well-known/openid-configuration",
   "manual_start_url": "https://jpyc-info.com/api/jpyc-agent-oauth/start",
-  "auth_session_poll_template": "https://jpyc-info.com/api/jpyc-agent-oauth/auth-session?auth_session_id={auth_session_id}",
+  "auth_session_poll_template": "https://jpyc-info.com/api/jpyc-agent-oauth/auth-session?auth_session_id={auth_session_id}&auth_session_secret={auth_session_secret}",
   "resource_scope": "mcp:tools",
   "default_requested_scope": "mcp:tools offline_access"
 }

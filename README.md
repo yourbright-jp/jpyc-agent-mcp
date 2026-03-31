@@ -35,7 +35,7 @@ Codex should discover the plugin from the repository root via the files below:
 The endpoint is OAuth-protected. Users must log in and grant consent before private wallet operations can run.
 If you open the MCP endpoint directly in a browser, it redirects to `https://jpyc-info.com/mcp/connect`.
 If an MCP client receives `401 unauthorized`, it should follow `WWW-Authenticate` and the resource metadata above to discover the OAuth flow.
-If ChatGPT/Codex does not surface a full authorization URL automatically, open `https://jpyc-info.com/mcp/connect` in the browser as the canonical human fallback. Low-level manual auth with `/api/jpyc-agent-oauth/start` remains available for debugging, but it is not the primary documented path.
+If ChatGPT/Codex does not surface a full authorization URL automatically, open `https://jpyc-info.com/mcp/connect` in the browser as the canonical human fallback. Low-level manual auth with `/api/jpyc-agent-oauth/start` remains available for debugging, but it is not the primary documented path. Clients using the low-level flow must keep the returned `auth_session_secret` private and present it when polling `/api/jpyc-agent-oauth/auth-session`.
 
 For the complete OAuth contract and exact URLs, see [`docs/auth.md`](./docs/auth.md) and [`config/oauth.json`](./config/oauth.json).
 
