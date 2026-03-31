@@ -30,6 +30,7 @@ Codex should discover the plugin from the repository root via the files below:
 - MCP Registry auth file: `https://jpyc-info.com/.well-known/mcp-registry-auth`
 
 The endpoint is OAuth-protected. Users must log in and grant consent before private wallet operations can run.
+If you open the MCP endpoint directly in a browser, it now redirects to the dedicated JPYC Info OAuth screen automatically.
 If ChatGPT/Codex does not surface a full authorization URL automatically, use the manual fallback at `https://jpyc-info.com/api/jpyc-agent-oauth/start` to create an auth session, open the returned `authorization_url`, then poll `https://jpyc-info.com/api/jpyc-agent-oauth/auth-session?auth_session_id=...` until it becomes authorized.
 
 ## Claude Code

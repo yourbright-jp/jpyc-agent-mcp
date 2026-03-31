@@ -9,6 +9,7 @@ The JPYC Agent MCP is an OAuth-protected HTTP MCP service.
 - OAuth issuer base: `https://jpyc-info.com/api/jpyc-agent-oauth`
 - Resource metadata: `https://jpyc-info.com/api/jpyc-agent-oauth/resource-metadata`
 - Authorization server metadata: `https://jpyc-info.com/api/jpyc-agent-oauth/metadata`
+- Browser auth start: `GET https://jpyc-info.com/api/jpyc-agent-oauth/start`
 - Manual auth start: `POST https://jpyc-info.com/api/jpyc-agent-oauth/start`
 - Manual auth poll: `GET https://jpyc-info.com/api/jpyc-agent-oauth/auth-session?auth_session_id=...`
 
@@ -24,6 +25,9 @@ Your MCP client should support:
 
 接続直後は `auth_status` を呼んで、session が有効か確認する運用を推奨します。  
 After connecting, it is recommended to call `auth_status` first to confirm the session is valid.
+
+ブラウザで `https://jpyc-info.com/api/jpyc-agent-mcp` を直接開いた場合は、OAuth 認証画面へ自動でリダイレクトされます。  
+If you open `https://jpyc-info.com/api/jpyc-agent-mcp` directly in a browser, it will automatically redirect to the OAuth screen.
 
 ## Manual Fallback / 手動フォールバック
 
