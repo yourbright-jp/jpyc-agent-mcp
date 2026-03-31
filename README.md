@@ -26,12 +26,18 @@ Codex should discover the plugin from the repository root via the files below:
 
 - MCP endpoint: `https://jpyc-info.com/api/jpyc-agent-mcp`
 - OAuth issuer: `https://jpyc-info.com/api/jpyc-agent-oauth`
-- Resource metadata: `https://jpyc-info.com/api/jpyc-agent-oauth/resource-metadata`
+- Resource metadata: `https://jpyc-info.com/.well-known/oauth-protected-resource`
+- Authorization server metadata: `https://jpyc-info.com/.well-known/oauth-authorization-server`
+- OpenID configuration: `https://jpyc-info.com/.well-known/openid-configuration`
+- Human sign-in page: `https://jpyc-info.com/mcp/connect`
 - MCP Registry auth file: `https://jpyc-info.com/.well-known/mcp-registry-auth`
 
 The endpoint is OAuth-protected. Users must log in and grant consent before private wallet operations can run.
-If you open the MCP endpoint directly in a browser, it now redirects to the dedicated JPYC Info OAuth screen automatically.
-If ChatGPT/Codex does not surface a full authorization URL automatically, use the manual fallback at `https://jpyc-info.com/api/jpyc-agent-oauth/start` to create an auth session, open the returned `authorization_url`, then poll `https://jpyc-info.com/api/jpyc-agent-oauth/auth-session?auth_session_id=...` until it becomes authorized.
+If you open the MCP endpoint directly in a browser, it redirects to `https://jpyc-info.com/mcp/connect`.
+If an MCP client receives `401 unauthorized`, it should follow `WWW-Authenticate` and the resource metadata above to discover the OAuth flow.
+If ChatGPT/Codex does not surface a full authorization URL automatically, open `https://jpyc-info.com/mcp/connect` in the browser as the canonical human fallback. Low-level manual auth with `/api/jpyc-agent-oauth/start` remains available for debugging, but it is not the primary documented path.
+
+For the complete OAuth contract and exact URLs, see [`docs/auth.md`](./docs/auth.md) and [`config/oauth.json`](./config/oauth.json).
 
 ## Claude Code
 
@@ -110,4 +116,4 @@ Contract write flow:
 - This repo does not include secrets.
 - This repo does not include private keys or signer material.
 - The bundled skill is intended to keep Codex inside the JPYC Agent MCP tool surface.
-- For more details, see [`docs/auth.md`](./docs/auth.md) and [`docs/openai-and-mcp.md`](./docs/openai-and-mcp.md).
+- For more details, see [`docs/auth.md`](./docs/auth.md), [`config/oauth.json`](./config/oauth.json), and [`docs/openai-and-mcp.md`](./docs/openai-and-mcp.md).

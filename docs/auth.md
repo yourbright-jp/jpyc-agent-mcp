@@ -5,12 +5,15 @@ The JPYC Agent MCP is an OAuth-protected HTTP MCP service.
 ## Public Endpoints
 
 - MCP resource: `https://jpyc-info.com/api/jpyc-agent-mcp`
+- Human sign-in page: `https://jpyc-info.com/mcp/connect`
 - OAuth issuer base: `https://jpyc-info.com/api/jpyc-agent-oauth`
-- Resource metadata: `https://jpyc-info.com/api/jpyc-agent-oauth/resource-metadata`
-- Authorization server metadata: `https://jpyc-info.com/api/jpyc-agent-oauth/metadata`
-- Browser auth start: `GET https://jpyc-info.com/api/jpyc-agent-oauth/start`
-- Manual auth start: `POST https://jpyc-info.com/api/jpyc-agent-oauth/start`
+- Resource metadata: `https://jpyc-info.com/.well-known/oauth-protected-resource`
+- Authorization server metadata: `https://jpyc-info.com/.well-known/oauth-authorization-server`
+- OpenID configuration: `https://jpyc-info.com/.well-known/openid-configuration`
+- Low-level manual auth start: `POST https://jpyc-info.com/api/jpyc-agent-oauth/start`
 - Manual auth poll: `GET https://jpyc-info.com/api/jpyc-agent-oauth/auth-session?auth_session_id=...`
+
+The exact public OAuth coordinates are also published in [`../config/oauth.json`](../config/oauth.json).
 
 ## Expected Client Capabilities
 
@@ -23,7 +26,19 @@ Your MCP client should support:
 
 After connecting, it is recommended to call `auth_status` first to confirm the session is valid.
 
-If you open `https://jpyc-info.com/api/jpyc-agent-mcp` directly in a browser, it will automatically redirect to the OAuth screen.
+Unauthenticated non-browser requests receive `401 unauthorized` and should discover OAuth through `WWW-Authenticate` plus the resource metadata.
+
+If you open `https://jpyc-info.com/api/jpyc-agent-mcp` directly in a browser, it will send you to `https://jpyc-info.com/mcp/connect`.
+
+## Recommended Human Fallback
+
+The canonical human fallback is `https://jpyc-info.com/mcp/connect`.
+
+Open `mcp/connect` first when:
+
+- the MCP client does not surface a full OAuth URL
+- the client does not handle `401` plus `WWW-Authenticate`
+- you want a human-visible browser flow
 
 ## Token Lifecycle And Local Persistence
 
@@ -38,7 +53,7 @@ This repository documents the protocol and endpoint behavior, but it does not pr
 
 ## Manual Fallback
 
-If the ChatGPT/Codex client does not surface a full OAuth authorization URL, use the manual fallback:
+Low-level manual auth remains available for debugging or client compatibility:
 
 1. `POST /api/jpyc-agent-oauth/start` to create an auth session
 2. Open the returned `authorization_url` in the browser
