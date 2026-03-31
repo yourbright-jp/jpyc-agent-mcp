@@ -4,7 +4,10 @@ This repository can be used with a local helper that persists JPYC Agent MCP
 OAuth credentials on the operator machine and reuses them across future Codex
 sessions.
 
-The helper lives at [`scripts/jpyc_oauth_cache.py`](../scripts/jpyc_oauth_cache.py).
+Two implementations are available:
+
+- [`scripts/jpyc_oauth_cache.py`](../scripts/jpyc_oauth_cache.py) (Python 3.8+)
+- [`scripts/jpyc_oauth_cache.ps1`](../scripts/jpyc_oauth_cache.ps1) (PowerShell 5.1+, no Python required)
 
 ## What It Does
 
@@ -27,28 +30,39 @@ machine and under the same Windows user profile.
 
 ## First-Time Setup
 
-Start a new auth session:
+### Python
 
 ```powershell
 python scripts/jpyc_oauth_cache.py start --open-browser
 ```
 
-That prints:
+### PowerShell (no Python required)
 
-- `authorization_url`
-- `auth_session_id`
+```powershell
+powershell.exe -ExecutionPolicy Bypass -File scripts/jpyc_oauth_cache.ps1 start -OpenBrowser
+```
 
-After login and consent complete in the browser, wait for authorization and
-save the refresh token:
+Both print `authorization_url` and `auth_session_id`. After login and consent
+complete in the browser, wait for authorization and save the refresh token:
+
+### Python
 
 ```powershell
 python scripts/jpyc_oauth_cache.py wait --auth-session-id <auth_session_id>
+```
+
+### PowerShell
+
+```powershell
+powershell.exe -ExecutionPolicy Bypass -File scripts/jpyc_oauth_cache.ps1 wait -AuthSessionId <auth_session_id>
 ```
 
 ## Reuse Across Future Sessions
 
 Once the cache exists, future sessions can refresh access automatically without
 opening the browser again:
+
+### Python
 
 ```powershell
 python scripts/jpyc_oauth_cache.py auth-status
@@ -60,6 +74,20 @@ python scripts/jpyc_oauth_cache.py call-tool --tool list_agent_wallets --argumen
 
 ```powershell
 python scripts/jpyc_oauth_cache.py call-tool --tool create_agent_wallet --arguments "{\"agent_name\":\"codex-wallet\",\"chain\":\"polygon\"}"
+```
+
+### PowerShell
+
+```powershell
+powershell.exe -ExecutionPolicy Bypass -File scripts/jpyc_oauth_cache.ps1 auth-status
+```
+
+```powershell
+powershell.exe -ExecutionPolicy Bypass -File scripts/jpyc_oauth_cache.ps1 call-tool -Tool list_agent_wallets -Arguments '{"limit":20,"chain":"polygon"}'
+```
+
+```powershell
+powershell.exe -ExecutionPolicy Bypass -File scripts/jpyc_oauth_cache.ps1 call-tool -Tool create_agent_wallet -Arguments '{"agent_name":"codex-wallet","chain":"polygon"}'
 ```
 
 ## Notes

@@ -5,7 +5,29 @@ description: Use when the user wants to work with JPYC Agent MCP wallets, balanc
 
 # JPYC Agent MCP skill
 
-Use this skill when the task is specifically about operating JPYC Agent MCP through Codex.
+Use this skill when the task is specifically about operating JPYC Agent MCP through Codex or Claude Code.
+
+## Claude Code authentication
+
+Claude Code does not auto-handle OAuth for `streamable-http` MCP servers. If
+the JPYC Agent MCP tools are not available as native MCP tools, use the helper
+script to call tools through the Bash tool:
+
+```bash
+# Check authentication
+powershell.exe -ExecutionPolicy Bypass -File scripts/jpyc_oauth_cache.ps1 auth-status
+
+# Call any tool
+powershell.exe -ExecutionPolicy Bypass -File scripts/jpyc_oauth_cache.ps1 call-tool -Tool <tool_name> -Arguments '<json>'
+```
+
+If the user has not authenticated yet, guide them through:
+
+1. `scripts/jpyc_oauth_cache.ps1 start -OpenBrowser` (Windows) or `scripts/jpyc_oauth_cache.py start --open-browser` (macOS/Linux)
+2. Open the `authorization_url` in a browser and grant consent
+3. `scripts/jpyc_oauth_cache.ps1 wait -AuthSessionId <id>` to save the token
+
+For the full setup guide, see `docs/claude-code.md`.
 
 ## Goals
 
@@ -54,7 +76,7 @@ Do not invent tools or assume direct signer access, private keys, or backdoor ad
 - If authentication or approval is required, say so plainly instead of implying execution succeeded.
 - If the client does not surface a full OAuth authorization URL, tell the user to open `https://jpyc-info.com/mcp/connect` as the canonical human fallback.
 - Only fall back to `https://jpyc-info.com/api/jpyc-agent-oauth/start` plus `auth-session` polling when the client needs a low-level manual OAuth flow for debugging or compatibility reasons.
-- If repeated browser logins are a problem on Windows, prefer the local refresh-token helper at `scripts/jpyc_oauth_cache.py` and the workflow documented in `docs/local-token-cache.md`.
+- If repeated browser logins are a problem on Windows, prefer the local refresh-token helper at `scripts/jpyc_oauth_cache.ps1` (PowerShell) or `scripts/jpyc_oauth_cache.py` (Python) and the workflow documented in `docs/local-token-cache.md`.
 - Keep blockchain jargon to the minimum needed for the task.
 
 ## What not to do

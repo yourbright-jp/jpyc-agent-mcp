@@ -41,7 +41,13 @@ For the complete OAuth contract and exact URLs, see [`docs/auth.md`](./docs/auth
 
 ## Claude Code
 
-Add the following to `~/.claude/settings.json`:
+> **Important:** Claude Code does not currently auto-handle OAuth for
+> `streamable-http` MCP servers. You must complete authentication using the
+> helper script before tools become available.
+
+### Quick Start
+
+1. Add the MCP config to `~/.claude/settings.json`:
 
 ```json
 {
@@ -53,6 +59,28 @@ Add the following to `~/.claude/settings.json`:
   }
 }
 ```
+
+2. Authenticate using the helper script:
+
+```powershell
+# Windows (PowerShell)
+powershell.exe -ExecutionPolicy Bypass -File scripts/jpyc_oauth_cache.ps1 start -OpenBrowser
+powershell.exe -ExecutionPolicy Bypass -File scripts/jpyc_oauth_cache.ps1 wait -AuthSessionId <id>
+```
+
+```bash
+# macOS / Linux (Python)
+python3 scripts/jpyc_oauth_cache.py start --open-browser
+python3 scripts/jpyc_oauth_cache.py wait --auth-session-id <id>
+```
+
+3. Call tools via the helper script from within Claude Code:
+
+```bash
+powershell.exe -ExecutionPolicy Bypass -File scripts/jpyc_oauth_cache.ps1 call-tool -Tool auth_status
+```
+
+For the full setup guide, see [`docs/claude-code.md`](./docs/claude-code.md).
 
 ## Client Token Persistence
 
@@ -68,10 +96,11 @@ Expected client behavior:
 
 If a client can complete browser login but cannot persist and reuse the issued credential locally, the MCP integration is incomplete from the user's point of view. In that case, the fix belongs in the MCP client implementation rather than this repository's server-side OAuth protocol.
 
-For local operator workflows on Windows, this repository now also includes a helper that can persist the issued refresh token with DPAPI and reuse it across future sessions:
+For local operator workflows, this repository includes helpers that persist the issued refresh token with DPAPI and reuse it across future sessions:
 
 - [`docs/local-token-cache.md`](./docs/local-token-cache.md)
-- [`scripts/jpyc_oauth_cache.py`](./scripts/jpyc_oauth_cache.py)
+- [`scripts/jpyc_oauth_cache.py`](./scripts/jpyc_oauth_cache.py) (Python, Windows)
+- [`scripts/jpyc_oauth_cache.ps1`](./scripts/jpyc_oauth_cache.ps1) (PowerShell, Windows)
 
 ## MCP Registry
 
