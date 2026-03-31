@@ -32,6 +32,21 @@ Codex should discover the plugin from the repository root via the files below:
 The endpoint is OAuth-protected. Users must log in and grant consent before private wallet operations can run.
 If ChatGPT/Codex does not surface a full authorization URL automatically, use the manual fallback at `https://jpyc-info.com/api/jpyc-agent-oauth/start` to create an auth session, open the returned `authorization_url`, then poll `https://jpyc-info.com/api/jpyc-agent-oauth/auth-session?auth_session_id=...` until it becomes authorized.
 
+## Claude Code
+
+Add the following to `~/.claude/settings.json`:
+
+```json
+{
+  "mcpServers": {
+    "jpyc-agent-mcp": {
+      "type": "streamable-http",
+      "url": "https://jpyc-info.com/api/jpyc-agent-mcp"
+    }
+  }
+}
+```
+
 ## MCP Registry
 
 This repository includes [`server.json`](./server.json) for publishing the remote server to the public MCP Registry using the domain-based namespace `com.jpyc-info/jpyc-agent-mcp`.
