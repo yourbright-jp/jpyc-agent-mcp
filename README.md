@@ -41,46 +41,30 @@ For the complete OAuth contract and exact URLs, see [`docs/auth.md`](./docs/auth
 
 ## Claude Code
 
-> **Important:** Claude Code does not currently auto-handle OAuth for
-> `streamable-http` MCP servers. You must complete authentication using the
-> helper script before tools become available.
+Claude Code does not natively support `streamable-http` MCP servers.
+Use [`mcp-remote`](https://www.npmjs.com/package/mcp-remote) to bridge
+streamable-http + OAuth to stdio.
 
 ### Quick Start
 
-1. Add the MCP config to `~/.claude/settings.json`:
+Add the following to your project `.mcp.json` or `~/.claude/settings.json`:
 
 ```json
 {
   "mcpServers": {
     "jpyc-agent-mcp": {
-      "type": "streamable-http",
-      "url": "https://jpyc-info.com/api/jpyc-agent-mcp"
+      "command": "npx",
+      "args": [
+        "mcp-remote",
+        "https://jpyc-info.com/api/jpyc-agent-mcp"
+      ]
     }
   }
 }
 ```
 
-2. Authenticate using the helper script:
-
-```powershell
-# Windows (PowerShell)
-powershell.exe -ExecutionPolicy Bypass -File scripts/jpyc_oauth_cache.ps1 start -OpenBrowser
-powershell.exe -ExecutionPolicy Bypass -File scripts/jpyc_oauth_cache.ps1 wait -AuthSessionId <id>
-```
-
-```bash
-# macOS / Linux (Python)
-python3 scripts/jpyc_oauth_cache.py start --open-browser
-python3 scripts/jpyc_oauth_cache.py wait --auth-session-id <id>
-```
-
-3. Call tools via the helper script from within Claude Code:
-
-```bash
-powershell.exe -ExecutionPolicy Bypass -File scripts/jpyc_oauth_cache.ps1 call-tool -Tool auth_status
-```
-
-For the full setup guide, see [`docs/claude-code.md`](./docs/claude-code.md).
+On first connection, `mcp-remote` opens a browser for OAuth consent.
+After authentication, all tools are available immediately.
 
 ## Client Token Persistence
 
