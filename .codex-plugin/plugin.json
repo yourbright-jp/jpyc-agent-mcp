@@ -2,18 +2,40 @@
   "name": "jpyc-agent",
   "version": "0.2.0",
   "description": "Plugin sample for connecting Codex to the OAuth-protected JPYC Agent MCP endpoint.",
+  "author": {
+    "name": "YourBright",
+    "url": "https://github.com/yourbright-jp/jpyc-agent-mcp"
+  },
   "homepage": "https://github.com/yourbright-jp/jpyc-agent-mcp",
   "repository": "https://github.com/yourbright-jp/jpyc-agent-mcp",
+  "license": "MIT",
+  "keywords": [
+    "jpyc",
+    "mcp",
+    "oauth",
+    "polygon",
+    "wallet",
+    "web3"
+  ],
   "skills": "./skills/",
   "mcpServers": "./.mcp.json",
   "interface": {
     "displayName": "JPYC Agent MCP",
     "shortDescription": "Use JPYC agent wallet, transfer, and contract workflows from Codex.",
     "longDescription": "A plugin sample that bundles the JPYC Agent MCP endpoint and a bundled skill for wallet lookup, balance checks, quote-first JPYC transfers, and contract read or write flows on Polygon.",
+    "developerName": "YourBright",
+    "category": "Coding",
+    "capabilities": [
+      "Interactive",
+      "Read",
+      "Write"
+    ],
+    "websiteURL": "https://github.com/yourbright-jp/jpyc-agent-mcp",
     "defaultPrompt": [
       "Use JPYC Agent MCP to check my wallet list and balance.",
       "Use JPYC Agent MCP to prepare a JPYC transfer quote before any state-changing action.",
       "Use JPYC Agent MCP to inspect a contract and only propose write actions after quoting."
-    ]
+    ],
+    "brandColor": "#0F766E"
   }
 }

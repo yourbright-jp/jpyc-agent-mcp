@@ -1,9 +1,8 @@
-# Auth and Security Model / 認証とセキュリティモデル
+# Auth and Security Model
 
-JPYC Agent MCP は OAuth で保護された HTTP MCP service です。  
 The JPYC Agent MCP is an OAuth-protected HTTP MCP service.
 
-## 公開エンドポイント / Public Endpoints
+## Public Endpoints
 
 - MCP resource: `https://jpyc-info.com/api/jpyc-agent-mcp`
 - OAuth issuer base: `https://jpyc-info.com/api/jpyc-agent-oauth`
@@ -13,9 +12,8 @@ The JPYC Agent MCP is an OAuth-protected HTTP MCP service.
 - Manual auth start: `POST https://jpyc-info.com/api/jpyc-agent-oauth/start`
 - Manual auth poll: `GET https://jpyc-info.com/api/jpyc-agent-oauth/auth-session?auth_session_id=...`
 
-## クライアント要件 / Expected Client Capabilities
+## Expected Client Capabilities
 
-MCP client 側には次が必要です。  
 Your MCP client should support:
 
 - HTTP MCP transport
@@ -23,15 +21,23 @@ Your MCP client should support:
 - OAuth authorization flow
 - structured tool input and output handling
 
-接続直後は `auth_status` を呼んで、session が有効か確認する運用を推奨します。  
 After connecting, it is recommended to call `auth_status` first to confirm the session is valid.
 
-ブラウザで `https://jpyc-info.com/api/jpyc-agent-mcp` を直接開いた場合は、OAuth 認証画面へ自動でリダイレクトされます。  
 If you open `https://jpyc-info.com/api/jpyc-agent-mcp` directly in a browser, it will automatically redirect to the OAuth screen.
 
-## Manual Fallback / 手動フォールバック
+## Token Lifecycle And Local Persistence
 
-ChatGPT/Codex client が完全な OAuth authorization URL を自動表示できない場合は、manual fallback を使います。  
+OAuth login is only the first half of the integration. After the issuer authorizes the user, the MCP client is expected to retain the issued credential and reuse it on later MCP requests.
+
+- The OAuth server is responsible for issuing credentials
+- The MCP client is responsible for storing credentials in local secure storage
+- The MCP client is responsible for attaching the stored credential to later MCP requests
+- A healthy integration should still be able to call `auth_status` after the client restarts and reloads its saved credentials
+
+This repository documents the protocol and endpoint behavior, but it does not prescribe where a specific client such as Codex Desktop stores its local tokens. If the browser login succeeds but later MCP calls cannot recover the credential, the defect is in the client integration layer rather than in the JPYC Agent MCP OAuth protocol itself.
+
+## Manual Fallback
+
 If the ChatGPT/Codex client does not surface a full OAuth authorization URL, use the manual fallback:
 
 1. `POST /api/jpyc-agent-oauth/start` to create an auth session
@@ -40,40 +46,27 @@ If the ChatGPT/Codex client does not surface a full OAuth authorization URL, use
 4. Poll `/api/jpyc-agent-oauth/auth-session?auth_session_id=...`
 5. When the response becomes `authorized`, reuse the returned bearer token for MCP calls
 
-## セキュリティ境界 / Security Boundaries
+## Security Boundaries
 
-- すべての wallet action はサインイン中ユーザーに紐づく  
-  every wallet action is bound to the signed-in user
-- tool は signer private key を返さない  
-  tools do not expose signer private keys
-- state-changing operation は quote then execute を要求する  
-  state-changing operations require explicit quote then execute steps
-- backend-managed signing / sponsorship の運用詳細はここでは公開しない  
-  backend-managed signing and sponsorship are intentionally not described in operational detail here
+- every wallet action is bound to the signed-in user
+- tools do not expose signer private keys
+- state-changing operations require explicit quote then execute steps
+- backend-managed signing and sponsorship are intentionally not described in operational detail here
 
-## Ownership Rules / 所有権ルール
+## Ownership Rules
 
-- `list_*` は current user 所有の object のみ返す  
-  `list_*` only returns objects owned by the current user
-- `get_*_status` も ownership check を通す  
-  `get_*_status` checks ownership before returning details
-- wallet id や quote id だけでは不十分で、ownership context が必要  
-  wallet ids and quote ids are not enough without matching ownership context
+- `list_*` only returns objects owned by the current user
+- `get_*_status` checks ownership before returning details
+- wallet ids and quote ids are not enough without matching ownership context
 
-## Contract Call Rules / コントラクト call ルール
+## Contract Call Rules
 
-- `read_contract` は `view` / `pure` のみ許可  
-  `read_contract` accepts only `view` and `pure` function fragments
-- `quote_contract_write` は `nonpayable` / `payable` のみ許可  
-  `quote_contract_write` accepts only `nonpayable` and `payable` function fragments
-- `execute_contract_write` は live な既存 quote に対してのみ動く  
-  `execute_contract_write` only works with a live, previously issued quote
+- `read_contract` accepts only `view` and `pure` function fragments
+- `quote_contract_write` accepts only `nonpayable` and `payable` function fragments
+- `execute_contract_write` only works with a live, previously issued quote
 
-## Secret Handling / 秘密情報の扱い
+## Secret Handling
 
-- plugin sample に secret は含めない  
-  plugin samples contain no secrets
-- runtime secret は secret manager または deployment environment に置く  
-  runtime secrets should live in your secret manager or deployment environment
-- backend key、sponsor credential、signer material を public config repo に置かない  
-  do not publish backend keys, sponsor credentials, or signer material in an MCP config repository
+- plugin samples contain no secrets
+- runtime secrets should live in your secret manager or deployment environment
+- do not publish backend keys, sponsor credentials, or signer material in an MCP config repository

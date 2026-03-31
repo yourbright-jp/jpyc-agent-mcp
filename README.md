@@ -48,6 +48,20 @@ Add the following to `~/.claude/settings.json`:
 }
 ```
 
+## Client Token Persistence
+
+This repository defines the OAuth-protected MCP endpoint and the plugin metadata needed for Codex discovery. It does not implement client-side credential storage on behalf of Codex, ChatGPT, or any other MCP client.
+
+Expected client behavior:
+
+1. Start the OAuth flow against the JPYC Agent OAuth issuer
+2. Receive the issued bearer token or equivalent session credential
+3. Persist that credential in the client's local secure storage
+4. Reuse it on subsequent MCP calls to `https://jpyc-info.com/api/jpyc-agent-mcp`
+5. Verify the recovered session with `auth_status`
+
+If a client can complete browser login but cannot persist and reuse the issued credential locally, the MCP integration is incomplete from the user's point of view. In that case, the fix belongs in the MCP client implementation rather than this repository's server-side OAuth protocol.
+
 ## MCP Registry
 
 This repository includes [`server.json`](./server.json) for publishing the remote server to the public MCP Registry using the domain-based namespace `com.jpyc-info/jpyc-agent-mcp`.
