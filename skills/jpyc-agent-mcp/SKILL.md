@@ -54,6 +54,7 @@ Do not invent tools or assume direct signer access, private keys, or backdoor ad
 - If authentication or approval is required, say so plainly instead of implying execution succeeded.
 - If the client does not surface a full OAuth authorization URL, tell the user to open `https://jpyc-info.com/mcp/connect` as the canonical human fallback.
 - Only fall back to `https://jpyc-info.com/api/jpyc-agent-oauth/start` plus `auth-session` polling when the client needs a low-level manual OAuth flow for debugging or compatibility reasons.
+- If repeated browser logins are a problem on Windows, prefer the local refresh-token helper at `scripts/jpyc_oauth_cache.py` and the workflow documented in `docs/local-token-cache.md`.
 - Keep blockchain jargon to the minimum needed for the task.
 
 ## What not to do

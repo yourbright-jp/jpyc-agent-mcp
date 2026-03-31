@@ -68,6 +68,11 @@ Expected client behavior:
 
 If a client can complete browser login but cannot persist and reuse the issued credential locally, the MCP integration is incomplete from the user's point of view. In that case, the fix belongs in the MCP client implementation rather than this repository's server-side OAuth protocol.
 
+For local operator workflows on Windows, this repository now also includes a helper that can persist the issued refresh token with DPAPI and reuse it across future sessions:
+
+- [`docs/local-token-cache.md`](./docs/local-token-cache.md)
+- [`scripts/jpyc_oauth_cache.py`](./scripts/jpyc_oauth_cache.py)
+
 ## MCP Registry
 
 This repository includes [`server.json`](./server.json) for publishing the remote server to the public MCP Registry using the domain-based namespace `com.jpyc-info/jpyc-agent-mcp`.

@@ -1,5 +1,5 @@
 {
-  "name": "jpyc-agent",
+  "name": "jpyc-agent-mcp",
   "version": "0.2.0",
   "description": "Plugin sample for connecting Codex to the OAuth-protected JPYC Agent MCP endpoint.",
   "author": {
@@ -31,11 +31,16 @@
       "Write"
     ],
     "websiteURL": "https://github.com/yourbright-jp/jpyc-agent-mcp",
+    "privacyPolicyURL": "https://jpyc-info.com/",
+    "termsOfServiceURL": "https://jpyc-info.com/",
     "defaultPrompt": [
       "Use JPYC Agent MCP to check my wallet list and balance.",
       "Use JPYC Agent MCP to prepare a JPYC transfer quote before any state-changing action.",
       "Use JPYC Agent MCP to inspect a contract and only propose write actions after quoting."
     ],
-    "brandColor": "#0F766E"
+    "brandColor": "#0F766E",
+    "composerIcon": "./assets/jpyc-agent-mcp.svg",
+    "logo": "./assets/jpyc-agent-mcp.svg",
+    "screenshots": []
   }
 }
