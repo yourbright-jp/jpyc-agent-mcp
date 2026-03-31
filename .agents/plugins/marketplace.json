@@ -1,0 +1,17 @@
+{
+  "name": "jpyc-agent-local",
+  "plugins": [
+    {
+      "name": "jpyc-agent",
+      "source": {
+        "source": "local",
+        "path": "."
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_FIRST_USE"
+      },
+      "category": "Development"
+    }
+  ]
+}
