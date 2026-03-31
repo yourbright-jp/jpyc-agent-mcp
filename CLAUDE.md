@@ -16,25 +16,26 @@ test -f ~/.jpyc-agent-mcp/oauth-cache.json && echo "authenticated" || echo "not 
 
 If **not authenticated**, guide the user through the helper script:
 
-1. Windows:
-   ```
-   powershell.exe -ExecutionPolicy Bypass -File scripts/jpyc_oauth_cache.ps1 start -OpenBrowser
+1. Start auth (opens browser):
+   ```bash
+   bash scripts/jpyc_oauth_cache.sh start --open-browser
    ```
 2. User opens the `authorization_url` in browser and grants consent.
 3. Save the token:
-   ```
-   powershell.exe -ExecutionPolicy Bypass -File scripts/jpyc_oauth_cache.ps1 wait -AuthSessionId <id>
+   ```bash
+   bash scripts/jpyc_oauth_cache.sh wait --auth-session-id <id>
    ```
 
-For macOS/Linux, use `python3 scripts/jpyc_oauth_cache.py` with the same
-subcommands.
+Alternative scripts are also available:
+- PowerShell: `scripts/jpyc_oauth_cache.ps1` (requires ExecutionPolicy bypass)
+- Python: `scripts/jpyc_oauth_cache.py` (requires Python + Windows DPAPI)
 
 ## Calling Tools
 
 Use the helper script to call MCP tools:
 
 ```bash
-powershell.exe -ExecutionPolicy Bypass -File scripts/jpyc_oauth_cache.ps1 call-tool -Tool <tool_name> -Arguments '<json>'
+bash scripts/jpyc_oauth_cache.sh call-tool --tool <tool_name> --arguments '<json>'
 ```
 
 ## Operational Rules
